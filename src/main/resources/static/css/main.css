@@ -1,0 +1,16 @@
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, h3 {
+    font-weight: 600;
+}
+
+
+.container {
+    margin-top: 20px;
+}
+
+

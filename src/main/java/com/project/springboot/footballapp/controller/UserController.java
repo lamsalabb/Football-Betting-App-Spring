@@ -1,9 +1,7 @@
 package com.project.springboot.footballapp.controller;
 
-import com.project.springboot.footballapp.entity.Member;
 import com.project.springboot.footballapp.entity.Role;
 import com.project.springboot.footballapp.entity.User;
-import com.project.springboot.footballapp.repository.MemberRepository;
 import com.project.springboot.footballapp.repository.RoleRepository;
 import com.project.springboot.footballapp.service.UserService;
 import org.apache.catalina.mbeans.UserMBean;
@@ -16,34 +14,33 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class UserController {
     private UserService userService;
-    private MemberRepository memberRepository;
     private RoleRepository roleRepository;
 
     @Autowired
-    public UserController(UserService userService, MemberRepository memberRepository, RoleRepository roleRepository) {
+    public UserController(UserService userService,RoleRepository roleRepository) {
         this.userService = userService;
-        this.memberRepository = memberRepository;
-        this.roleRepository = roleRepository;
+        this.roleRepository=roleRepository;
+
     }
 
     @PostMapping("/save")
     public String saveUser(@ModelAttribute("user") User user) {
 
         //TODO make coins for User
-        String tempBCryptPass = BCrypt.hashpw(user.getPassword(),BCrypt.gensalt());
+        String tempBCryptPass = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+        user.setPassword("{bcrypt}"+tempBCryptPass);
+        user.setActive(1);
 
-        Member tempMember = new Member(user.getUsername(),1,"{bcrypt}"+tempBCryptPass);
-        memberRepository.save(tempMember);
+        Role role= new Role(user.getUsername(),"ROLE_USER");//mapping manually
 
-        Role tempRole = new Role(user.getUsername(),"ROLE_USER");
-        roleRepository.save(tempRole);
-
-        user.setPassword(tempBCryptPass);
+        roleRepository.save(role);
+        System.out.println(user);
         userService.save(user);
         return "login";
     }

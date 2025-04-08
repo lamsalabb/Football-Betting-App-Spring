@@ -18,7 +18,7 @@ public class UserConfig {
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 
         jdbcUserDetailsManager.setUsersByUsernameQuery(
-                "select user_id, pw, active from members where user_id=?");
+                "select username, password, active from users where username=?");
 
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
                 "select user_id, role from roles where user_id=?");
@@ -33,7 +33,7 @@ public class UserConfig {
                         configurer
                                 .requestMatchers("/showRegisterPage","/save").permitAll()
                                 .requestMatchers("/css/**","/images/**").permitAll()
-                                .requestMatchers("/").hasRole("USER")
+                                .requestMatchers("/").hasAnyRole("ADMIN","USER")
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )

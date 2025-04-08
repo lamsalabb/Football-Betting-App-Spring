@@ -1,5 +1,6 @@
 package com.project.springboot.footballapp.service;
 
+import com.project.springboot.footballapp.entity.Role;
 import com.project.springboot.footballapp.entity.User;
 import com.project.springboot.footballapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,32 +1,30 @@
 USE `football_directory`;
 
 DROP TABLE IF EXISTS `roles`;
-DROP TABLE IF EXISTS `members`;
+DROP TABLE IF EXISTS `users`;
 
-
-CREATE TABLE `members` (
-  `user_id` varchar(50) NOT NULL,
-  `pw` char(68) NOT NULL,
-  `active` tinyint NOT NULL,
-  PRIMARY KEY (`user_id`)
+CREATE TABLE `users` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `username` VARCHAR(255) NOT NULL UNIQUE,
+    `password` VARCHAR(255) NOT NULL,
+    `bet_coins` INT DEFAULT 0,
+    `active` INT DEFAULT 1,
+    `favorite_team` VARCHAR(255)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-INSERT INTO `members`
-VALUES
-('john','{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1),
-('abiral','{bcrypt}$2a$10$RL2tbEqiUk59Yy1nvZ.gmevWIjePZmQ.oAPKv5kVjOiEMs78anrnm',1);
-
 
 CREATE TABLE `roles` (
-  `user_id` varchar(50) NOT NULL,
-  `role` varchar(50) NOT NULL,
-  UNIQUE KEY `authorities5_idx_1` (`user_id`,`role`),
-  CONSTRAINT `authorities5_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `members` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+    `user_id` VARCHAR(255) NOT NULL,
+    `role` VARCHAR(50) NOT NULL,
+    PRIMARY KEY (`user_id`)
+ )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-INSERT INTO `roles`
+INSERT INTO `users` (`username`, `password`, `bet_coins`, `active`, `favorite_team`)
 VALUES
-('abiral','ROLE_ADMIN'),
-('abiral','ROLE_USER'),
-('john','ROLE_USER');
+('john', '{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q', 500, 1, NULL),
+('abiral', '{bcrypt}$2a$10$RL2tbEqiUk59Yy1nvZ.gmevWIjePZmQ.oAPKv5kVjOiEMs78anrnm', 9999, 1, NULL);
+
+INSERT INTO `roles` (`user_id`, `role`)
+VALUES
+('abiral', 'ROLE_ADMIN'),
+('john', 'ROLE_USER');

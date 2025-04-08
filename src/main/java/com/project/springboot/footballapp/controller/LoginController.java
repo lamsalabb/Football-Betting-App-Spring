@@ -18,7 +18,6 @@ public class LoginController {
     public String showRegisterPage(Model model) {
         User user = new User();
         model.addAttribute("user", user);
-        System.out.println("in show page");
         return "register";
     }
 

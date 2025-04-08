@@ -11,24 +11,23 @@ public class User {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "username")
+    @Column(name="username")
     private String username;
 
     @Column(name="password")
     private String password;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
+    @Column(name="bet_coins")
+    private int betCoins;
 
-    public User() {
+    @Column(name="active")
+    private int active;
 
-    }
+    @Column(name = "favorite_team")
+    private String favoriteTeam;
+
+
+    public User() {}
 
     public int getId() {
         return id;
@@ -52,5 +51,43 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getBetCoins() {
+        return betCoins;
+    }
+
+    public void setBetCoins(int betCoins) {
+        this.betCoins = betCoins;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+
+    public String getFavoriteTeam() {
+        return favoriteTeam;
+    }
+
+    public void setFavoriteTeam(String favoriteTeam) {
+        this.favoriteTeam = favoriteTeam;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", betCoins=" + betCoins +
+                ", active=" + active +
+                ", favoriteTeam='" + favoriteTeam + '\'' +
+                '}';
     }
 }

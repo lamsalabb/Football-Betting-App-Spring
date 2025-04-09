@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `email` VARCHAR(255) NOT NULL UNIQUE,
     `username` VARCHAR(255) NOT NULL UNIQUE,
     `password` VARCHAR(255) NOT NULL,
     `bet_coins` INT DEFAULT 0,
@@ -19,11 +20,10 @@ CREATE TABLE `roles` (
  )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-INSERT INTO `users` (`username`, `password`, `bet_coins`, `active`, `favorite_team`)
+INSERT INTO `users` (`email`,`username`, `password`, `bet_coins`, `active`, `favorite_team`)
 VALUES
-('john', '{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q', 500, 1, NULL),
-('abiral', '{bcrypt}$2a$10$RL2tbEqiUk59Yy1nvZ.gmevWIjePZmQ.oAPKv5kVjOiEMs78anrnm', 9999, 1, NULL);
-
+('abiral@example.com','abiral', '{bcrypt}$2a$10$RL2tbEqiUk59Yy1nvZ.gmevWIjePZmQ.oAPKv5kVjOiEMs78anrnm', 9999, 1, NULL),
+('john@example.com','john', '{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q', 500, 1, NULL);
 INSERT INTO `roles` (`user_id`, `role`)
 VALUES
 ('abiral', 'ROLE_ADMIN'),

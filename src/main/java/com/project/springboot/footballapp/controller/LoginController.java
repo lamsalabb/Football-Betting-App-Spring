@@ -16,6 +16,7 @@ public class LoginController {
 
     @GetMapping("/showRegisterPage")
     public String showRegisterPage(Model model) {
+        System.out.println("in register");
         User user = new User();
         model.addAttribute("user", user);
         return "register";

@@ -10,7 +10,9 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,37 +20,52 @@ import java.util.Map;
 public class HomeController {
 
     @GetMapping("/")
-        public String showHome(Model model){
-            JsonNode fixtures = APIReturn.getUpcomingFixtures();
+    public String showHome(Model model) {
+        JsonNode fixtures = APIReturn.getUpcomingFixtures();
 
         List<Map<String, Object>> fixtureList = new ArrayList<>();
         Instant now = Instant.now();
         Instant fixtureTime;
-        for(JsonNode fixture : fixtures){
-            fixtureTime=Instant.parse(fixture.path("utcDate").asText());
-            if(now.isBefore(fixtureTime)){
+        int currentMatchDay = fixtures.get(0).path("season").path("currentMatchday").asInt() + 1;
+        for (JsonNode fixture : fixtures) {
+
+            fixtureTime = Instant.parse(fixture.path("utcDate").asText());
+
+            if ((now.isBefore(fixtureTime)) && (fixture.path("matchday").asInt() == currentMatchDay)) {
                 fixtureList.add(Map.of(
                         "homeTeam", fixture.path("homeTeam").path("name").asText(),
                         "awayTeam", fixture.path("awayTeam").path("name").asText(),
-                        "date", ZonedDateTime.ofInstant(fixtureTime, ZoneId.systemDefault()).format(DateTimeFormatter.BASIC_ISO_DATE)
+                        "date", ZonedDateTime.ofInstant(fixtureTime, ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("dd MMM yyyy")),
+                        "time", ZonedDateTime.ofInstant(fixtureTime, ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("hh:mm a"))
                 ));
 
             }
 
         }
 
-        model.addAttribute("fixtureList",fixtureList);
-        return "home";
+        Map<String, List<Map<String, Object>>> groupedFixtures = new LinkedHashMap<>();
+        for (Map<String, Object> fixture : fixtureList) {
+            String date = (String) fixture.get("date");
+            if (!groupedFixtures.containsKey(date)) {
+                groupedFixtures.put(date, new ArrayList<>());
+            }
+            groupedFixtures.get(date).add(fixture);
         }
+
+        model.addAttribute("groupedFixtures", groupedFixtures);
+        return "home";
+    }
 
     @GetMapping("/showMyAccountPage")
     public String showMyAccountPage() {
         return "account";
     }
+
     @GetMapping("/showMyBetsPage")
     public String showMyBetsPage() {
         return "bets";
     }
+
     @GetMapping("/showStandingsPage")
     public String showStandings(Model model) {
         JsonNode table = APIReturn.getTable();
@@ -73,5 +90,5 @@ public class HomeController {
         model.addAttribute("teams", teams);
         return "standings";
     }
-    }
+}
 

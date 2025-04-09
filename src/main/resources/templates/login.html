@@ -8,8 +8,8 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 <div th:replace="~{fragments/header-login}"/>
-<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
-    <div class="card p-4 shadow" style="width: 100%; max-width: 400px;">
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 70vh;">
+    <div class="card p-4 shadow" style="width: 100%; max-width: 430px;">
         <h2 class="text-center mb-4">Login</h2>
 
         <form action="#" th:action="@{/authenticateTheUser}" method="post">
@@ -37,6 +37,6 @@
     </div>
 </div>
 <footer th:replace="~{fragments/footer}"/>
-
 </body>
+
 </html>

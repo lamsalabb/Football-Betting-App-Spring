@@ -1,6 +1,7 @@
 package com.project.springboot.footballapp.entity;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 
 @Entity
 @Table(name = "users")
@@ -11,8 +12,19 @@ public class User {
     @Column(name = "id")
     private int id;
 
+    @Column(name="email")
+    private String email;
+
     @Column(name="username")
     private String username;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     @Column(name="password")
     private String password;
@@ -26,6 +38,17 @@ public class User {
     @Column(name = "favorite_team")
     private String favoriteTeam;
 
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
+
+    @Transient
+    private String otp;
 
     public User() {}
 

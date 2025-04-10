@@ -1,10 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>My Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+
+<body class="bg-light d-flex flex-column min-vh-100">
+
+<div class="d-flex flex-column flex-grow-1">
+
+    <div th:replace="~{fragments/header}"></div>
+
+    <div class="container my-5 flex-grow-1">
+        <h2 class="text-center mb-5">My Account</h2>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+
+                <div class="card shadow-lg p-4 border-0">
+                    <div class="card-body">
+
+                        <div class="row mb-4">
+                            <div class="col-4 text-end fw-bold">
+                                Email:
+                            </div>
+                            <div class="col-8">
+                                <span th:text="${user.email}"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-4 text-end fw-bold">
+                                Username:
+                            </div>
+                            <div class="col-8">
+                                <span th:text="${user.username}"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-5">
+                            <div class="col-4 text-end fw-bold">
+                                Favorite Team:
+                            </div>
+                            <div class="col-8 d-flex align-items-center">
+                                <img th:src="@{'/images/logos/' + ${user.favoriteTeam} + ' logo.png'}"
+                                     alt="Team Logo"
+                                     class="me-2"
+                                     style="height: 40px; width: 40px; object-fit: contain;">
+                                <span th:text="${user.favoriteTeam}"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-center gap-4"sec:authorize="hasRole('USER')">
+
+                            <a th:href="@{/showMyUpdatePage}" class="btn btn-primary px-4 py-2 shadow-sm">Update Account</a>
+
+                            <a th:href="@{/delete}" class="btn btn-danger px-4 py-2 shadow-sm">Delete Account</a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div th:replace="~{fragments/footer}"></div>
 
 </body>
 </html>

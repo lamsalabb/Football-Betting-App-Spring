@@ -73,4 +73,12 @@ public class UserController {
         return "login";
 
     }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute("user") User user){
+        String tempBCryptPass = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+        user.setPassword("{bcrypt}" + tempBCryptPass);
+        userService.save(user);
+        return "account";
+    }
 }

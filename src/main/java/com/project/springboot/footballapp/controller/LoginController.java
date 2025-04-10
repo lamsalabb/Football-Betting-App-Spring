@@ -4,6 +4,7 @@ import com.project.springboot.footballapp.entity.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.time.Year;
 
@@ -16,7 +17,6 @@ public class LoginController {
 
     @GetMapping("/showRegisterPage")
     public String showRegisterPage(Model model) {
-        System.out.println("in register");
         User user = new User();
         model.addAttribute("user", user);
         return "register";
@@ -27,5 +27,12 @@ public class LoginController {
     public String showAccessDenied() {
 
         return "access-denied";
+    }
+
+    @GetMapping("/showMyUpdatePage")
+    public String showUpdatePage(@ModelAttribute("user") User user, Model model) {
+        model.addAttribute("user", user);
+        System.out.println(user);
+        return "update";
     }
 }

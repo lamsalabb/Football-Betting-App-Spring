@@ -10,20 +10,19 @@
 
 <div th:replace="~{fragments/header}"></div>
 
-<div class="container mt-5 py-5 flex-grow-1">
-    <h1 class="text-center">
-        Upcoming <img src="/images/logos/Premier League logo.png" alt="Premier League Logo"
-                      style="max-width: 250px; vertical-align: middle;"/> Fixtures
-    </h1>
+<div class="container">
+    <h3 class="text-center">
+        Upcoming <img src="/images/logos/Premier League logo.png" alt="Premier League Logo" style="max-width: 300px; max-width: 200px;"/> Fixtures
+    </h3>
 
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-12">
 
             <div th:each="entry : ${groupedFixtures}">
-                <h3 class="text-center text-primary my-4 py-2 border-bottom border-black border-3 border-primary rounded"
-                    th:text="${entry.key}"></h3>
+                <h4 class="text-center text-danger my-4 py-2 border-bottom border-black border-3 border-primary rounded"
+                    th:text="${entry.key}"></h4>
 
-                <div class="row row-cols-1 g-3">
+                <div class="row row-cols-1 g-3 mb-5">
                     <div th:each="fixture : ${entry.value}" class="col">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="card shadow-lg border-0" style="width: 100%; flex-grow: 1;">
@@ -51,7 +50,7 @@
                                 </div>
                             </div>
 
-                            <div class="ms-3">
+                            <div class="ms-3 bg-white shadow">
                                 <div th:replace="~{fragments/button}"></div>
                             </div>
                         </div>

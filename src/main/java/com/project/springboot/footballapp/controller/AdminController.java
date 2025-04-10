@@ -37,20 +37,20 @@ public class AdminController {
     public String showFormForUpdate(@RequestParam("userId") int id, Model theModel) {
 
         User user = userService.findById(id);
-
+        System.out.println(user);
         theModel.addAttribute("user", user);
 
-        return "update";
+        return "admin/update";
     }
 
 
     @PostMapping("/save")
-    public String saveUser(@ModelAttribute("user") User user) {
-        System.out.println(user);
+    public String saveUser(@ModelAttribute User user) {
+        System.out.println(user+"user in save");
         String tempBCryptPass = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         user.setPassword("{bcrypt}" + tempBCryptPass);
         userService.save(user);
-
+        //TODO NOT LETTING UPDATE FROM ADMIN BUT WORKS FROM USER
         return "redirect:/admin/list";
     }
 

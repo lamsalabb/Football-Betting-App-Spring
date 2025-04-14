@@ -49,7 +49,8 @@ public class AdminController {
         System.out.println(user+"user in save");
         String tempBCryptPass = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         user.setPassword("{bcrypt}" + tempBCryptPass);
-        userService.save(user);
+        System.out.println(user);
+        //userService.save(user);
         //TODO NOT LETTING UPDATE FROM ADMIN BUT WORKS FROM USER
         return "redirect:/admin/list";
     }

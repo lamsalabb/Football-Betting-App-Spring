@@ -2,7 +2,9 @@ package com.project.springboot.footballapp.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.project.springboot.footballapp.entity.User;
+import com.project.springboot.footballapp.service.BetService;
 import com.project.springboot.footballapp.utils.APIReturn;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +23,20 @@ import java.util.Map;
 @Controller
 public class HomeController {
 
+
+    private BetService betService;
+
+    @Autowired
+    public HomeController(BetService betService){
+        this.betService=betService;
+    }
+
     @GetMapping("/")
     public String showHome(Model model) {
-        JsonNode fixtures = APIReturn.getUpcomingFixtures();
 
+        //betService.checkAndProcessPayouts();
+        JsonNode fixtures = APIReturn.getUpcomingFixtures();
+        System.out.println("in home");
         List<Map<String, Object>> fixtureList = new ArrayList<>();
         Instant now = Instant.now();
         Instant fixtureTime;
@@ -38,7 +50,9 @@ public class HomeController {
                         "homeTeam", fixture.path("homeTeam").path("name").asText(),
                         "awayTeam", fixture.path("awayTeam").path("name").asText(),
                         "date", ZonedDateTime.ofInstant(fixtureTime, ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("dd MMM yyyy")),
-                        "time", ZonedDateTime.ofInstant(fixtureTime, ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("hh:mm a"))
+                        "time", ZonedDateTime.ofInstant(fixtureTime, ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("hh:mm a")),
+                        "utcDate",fixture.path("utcDate").asText(),
+                        "id",fixture.path("id").asInt()
                 ));
 
             }
@@ -55,6 +69,7 @@ public class HomeController {
         }
 
         model.addAttribute("groupedFixtures", groupedFixtures);
+        System.out.println(groupedFixtures);
         return "home";
     }
 

@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>My Bets</title>
+    <title>Place Your Bet</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light d-flex flex-column min-vh-100">
+
+<div th:replace="~{fragments/header}"></div>
+
+<main class="flex-grow-1">
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Place Your Bet</h2>
+
+        <form action="#" th:action="@{/bet/place}" th:object="${bet}" method="POST" class="card p-4 shadow-lg">
+            <div class="mb-3">
+                <label class="form-label">Match</label>
+                <div class="form-control bg-light" readonly>
+                    <span th:text="${bet.homeTeam}">Home</span> vs <span th:text="${bet.awayTeam}">Away</span>
+                </div>
+                <input type="hidden" th:field="*{homeTeam}">
+                <input type="hidden" th:field="*{awayTeam}">
+                <input type="hidden" th:field="*{matchId}">
+                <input type="hidden" th:field="*{matchTime}">
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="form-label">Predicted Home Score</label>
+                    <input type="number" class="form-control" th:field="*{predictedHomeScore}" required>
+                </div>
+                <div class="col">
+                    <label class="form-label">Predicted Away Score</label>
+                    <input type="number" class="form-control" th:field="*{predictedAwayScore}" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Bet Amount (betCoins)</label>
+                <input type="number" class="form-control" th:field="*{betAmount}" required>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Place Bet</button>
+        </form>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer}"></div>
 
 </body>
 </html>

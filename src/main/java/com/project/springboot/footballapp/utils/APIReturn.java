@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class APIReturn {
+
     private static final String token = "4f7be6b2457d4583917f4dc7d77154bd";
 
     public static JsonNode getTable(){

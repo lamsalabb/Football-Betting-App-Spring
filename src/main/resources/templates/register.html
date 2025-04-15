@@ -26,11 +26,17 @@
                     <input type="text" class="form-control" th:field="*{username}" placeholder="Username" required>
 
                     <input type="password" class="form-control" th:field="*{password}" placeholder="Password" required>
+
+                    <select th:field="*{favoriteTeam}" class="form-control" required>
+                        <option th:each="team : ${teams}" th:value="${team}" th:text="${team}" class="form-control" ></option>
+
+                    </select>
                 </div>
 
                 <div th:if="${otpSent}">
                     <input type="hidden" th:field="*{username}"/>
                     <input type="hidden" th:field="*{password}"/>
+                    <input type="hidden" th:field="*{favoriteTeam}"/>
                     <input type="text" class="form-control w-25" th:field="*{otp}" placeholder="Enter OTP" required>
                 </div>
 

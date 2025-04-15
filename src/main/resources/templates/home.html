@@ -9,11 +9,30 @@
 <body class="bg-light d-flex flex-column min-vh-100">
 
 <div th:replace="~{fragments/header}"></div>
+<main class="flex-grow-1 d-flex flex-column justify-content-center align-items-center">
 
 <div class="container">
     <h3 class="text-center">
         Upcoming <img src="/images/logos/Premier League logo.png" alt="Premier League Logo" style="max-width: 300px; max-width: 200px;"/> Fixtures
     </h3>
+
+    <div th:if="${#maps.isEmpty(groupedFixtures)}">
+        <script>
+            setTimeout(function () {
+                location.reload();
+            }, 2000);
+        </script>
+
+        <div class="d-flex justify-content-center align-items-center" style="height: 50vh;">
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3">Loading fixtures, please wait...</p>
+            </div>
+        </div>
+    </div>
+
 
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -36,8 +55,7 @@
                                     </div>
 
                                     <div class="position-absolute top-50 start-50 translate-middle text-muted small"
-                                         style="min-width: 80px; text-align: center;"><span class="fw-bold"
-                                                                                            th:text="${fixture['time']}"></span>
+                                         style="min-width: 80px; text-align: center;"><span class="fw-bold" th:text="${fixture['time']}"></span>
                                     </div>
 
                                     <div class="d-flex align-items-center">
@@ -49,21 +67,26 @@
 
                                 </div>
                             </div>
+                            <div class="ms-3 bg-white shadow p-3 rounded">
+                            <form action="#" th:action="@{/bet/showBetForm}" method="GET" >
+                                <input type="hidden" name="homeTeam" th:value="${fixture['homeTeam']}">
+                                <input type="hidden" name="awayTeam" th:value="${fixture['awayTeam']}">
+                                <input type="hidden" name="matchTime" th:value="${fixture['utcDate']}">
+                                <input type="hidden" name="id" th:value="${fixture['id']}">
 
-                            <div class="ms-3 bg-white shadow">
                                 <div th:replace="~{fragments/button}"></div>
+
+                            </form>
                             </div>
                         </div>
                     </div>
                 </div>
-
-            </div>
-
         </div>
     </div>
-
+    </div>
 </div>
 
+</main>
 <div th:replace="~{fragments/footer}"></div>
 
 </body>

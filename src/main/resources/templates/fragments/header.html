@@ -24,11 +24,11 @@
                         <a class="nav-link" th:href="@{/showStandingsPage}" style="color: white;">Standings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/showMyBetsPage}" style="color: white;">My Bets</a>
+                        <a class="nav-link" th:href="@{/bet/showMyBetsPage}" style="color: white;">My Bets</a>
                     </li>
 
                     <li class="nav-item d-flex align-items-center mx-3">
-                        <span class="badge bg-warning text-dark me-2" th:text="${betCoins}">0</span>
+                        <span class="badge bg-warning text-dark me-2" th:text="${user.betCoins}">0</span>
                         <img src="/images/logos/coin.png" class="me-2" style="width: 24px; height: 24px;">
                     </li>
 

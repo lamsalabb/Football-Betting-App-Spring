@@ -33,7 +33,7 @@ public class UserConfig {
                         configurer
                                 .requestMatchers("/showRegisterPage", "/save").permitAll()
                                 .requestMatchers("/css/**", "/images/**").permitAll()
-                                .requestMatchers("/").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers("/","/bet/**").hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )

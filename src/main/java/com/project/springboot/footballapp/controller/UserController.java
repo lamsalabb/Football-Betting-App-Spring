@@ -1,7 +1,9 @@
 package com.project.springboot.footballapp.controller;
 
+import com.project.springboot.footballapp.entity.Bet;
 import com.project.springboot.footballapp.entity.Role;
 import com.project.springboot.footballapp.entity.User;
+import com.project.springboot.footballapp.repository.BetRepository;
 import com.project.springboot.footballapp.repository.RoleRepository;
 import com.project.springboot.footballapp.service.EmailService;
 import com.project.springboot.footballapp.service.UserService;
@@ -25,13 +27,14 @@ public class UserController {
     private UserService userService;
     private RoleRepository roleRepository;
     private EmailService emailService;
+    private BetRepository betRepository;
 
     @Autowired
-    public UserController(UserService userService, RoleRepository roleRepository, EmailService emailService) {
+    public UserController(UserService userService, RoleRepository roleRepository, EmailService emailService,BetRepository betRepository) {
         this.userService = userService;
         this.roleRepository = roleRepository;
         this.emailService = emailService;
-
+        this.betRepository=betRepository;
     }
 
     @PostMapping("/save")
@@ -56,6 +59,8 @@ public class UserController {
         user.setPassword("{bcrypt}" + tempBCryptPass);
         user.setActive(1);
 
+        user.setBetCoins(1000);
+
         Role role = new Role(user.getUsername(), "ROLE_USER");//mapping manually because the db is too much hassle to link
         //hibernate not complying
 
@@ -67,7 +72,10 @@ public class UserController {
 
     @GetMapping("/delete")
     public String delete(@ModelAttribute("user") User user) {
-
+        List<Bet> bets = betRepository.findByUser(user);
+        for (Bet bet : bets){
+            betRepository.delete(bet);
+        }
         userService.delete(user);
 
         return "login";

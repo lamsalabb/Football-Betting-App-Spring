@@ -41,26 +41,23 @@ public class AdminController {
 
         User user = userService.findById(id);
         System.out.println(user);
-        theModel.addAttribute("user", user);
+        theModel.addAttribute("editUser", user);
 
         return "admin/update";
     }
 
 
     @PostMapping("/save")
-    public String saveUser(@ModelAttribute User user) {
-        System.out.println(user+"user in save");
-        String tempBCryptPass = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-        user.setPassword("{bcrypt}" + tempBCryptPass);
-        System.out.println(user);
-        //userService.save(user);
-        //TODO NOT LETTING UPDATE FROM ADMIN BUT WORKS FROM USER
+    public String saveUser(@ModelAttribute("editUser") User tempUser) {
+
+        String tempBCryptPass = BCrypt.hashpw(tempUser.getPassword(), BCrypt.gensalt());
+        tempUser.setPassword("{bcrypt}" + tempBCryptPass);
+        userService.save(tempUser);
         return "redirect:/admin/list";
     }
 
     @GetMapping("/delete")
     public String delete(@RequestParam("userId") int id) {
-
 
         User user = userService.findById(id);
         List<Bet> bets = betRepository.findByUser(user);

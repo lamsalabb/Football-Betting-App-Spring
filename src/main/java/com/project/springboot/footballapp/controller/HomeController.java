@@ -34,7 +34,7 @@ public class HomeController {
     @GetMapping("/")
     public String showHome(Model model) {
 
-        //betService.checkAndProcessPayouts();
+        betService.checkAndProcessPayouts();
         JsonNode fixtures = APIReturn.getUpcomingFixtures();
         System.out.println("in home");
         List<Map<String, Object>> fixtureList = new ArrayList<>();
